@@ -1,68 +1,64 @@
-# 🧠 Animal Image Classification (4 Classes)
+# 🧠 Intel Image Classification (6 Classes)
 
-Proyek ini merupakan implementasi deep learning untuk klasifikasi gambar hewan ke dalam 4 kelas: **Horse**, **Chicken**, **Cat**, dan **Spider**, menggunakan model **Convolutional Neural Network (CNN)** dari awal (tanpa pretrained model).
+Proyek ini merupakan implementasi deep learning untuk klasifikasi gambar ke dalam 6 kelas lingkungan menggunakan **Convolutional Neural Network (CNN)** yang dibangun dari awal tanpa pretrained model.
 
 ## 📁 Dataset
-Dataset yang digunakan adalah subset dari [Animals-10](https://www.kaggle.com/datasets/alessiocorrado99/animals10), dengan total 4 kelas:
-- Horse (`cavallo`)
-- Chicken (`gallina`)
-- Cat (`gatto`)
-- Spider (`ragno`)
+Dataset yang digunakan adalah [Intel Image Classification](https://www.kaggle.com/datasets/puneet6060/intel-image-classification), yang terdiri dari gambar pemandangan outdoor dengan 6 kelas berbeda:
 
-Dataset ini memiliki gambar dengan resolusi tidak seragam, sehingga dilakukan preprocessing termasuk resize, augmentasi, dan normalisasi.
+- **Buildings**
+- **Forest**
+- **Glacier**
+- **Mountain**
+- **Sea**
+- **Street**
 
-### Distribusi Data (Setelah Filter)
-- Horse: `2623` gambar
-- Chicken: `3098` gambar
-- Cat: `1668` gambar
-- Spider: `4821` gambar
+### Karakteristik Dataset:
+- Total: ~25.000+ gambar
+- Resolusi gambar bervariasi
+- Dataset dibagi menjadi folder `train`, `test`, dan `val`
 
+📌 **Preprocessing**:
+- Resize gambar ke ukuran tetap (misal: 150x150)
+- Normalisasi pixel (rescaling)
+- Augmentasi data (rotation, flip, zoom, shift, dll)
 
-Total: `12201` gambar
+## 🛠️ Arsitektur Model
 
-## 🛠️ Model Arsitektur
-Model CNN dibangun menggunakan Keras Sequential API dengan arsitektur sebagai berikut:
+Model CNN dibangun menggunakan Keras Sequential API. Arsitektur terdiri dari:
 
-- 4 buah blok Conv2D + MaxPooling2D
-- Dropout untuk mencegah overfitting
-- Dense layer 256 & 512 neuron + softmax output (4 kelas)
+- 4 blok Conv2D + MaxPooling2D
+- Dropout untuk mengurangi overfitting
+- Dense layer berukuran 128 dan 256 neuron
+- Output layer dengan Softmax (6 kelas)
 
-### Ringkasan Model
-```
-Conv2D → MaxPooling2D → Conv2D → MaxPooling2D → Conv2D → MaxPooling2D → Conv2D → MaxPooling2D  
-→ Flatten → Dense(128)→ Dropout → Dense(512) → Dropout → Dense(4) Softmax
-```
+### Ringkasan Model:
 
-## 🧪 Evaluasi
+Conv2D → MaxPooling2D → Conv2D → MaxPooling2D → Conv2D → MaxPooling2D → Conv2D → MaxPooling2D
+→ Flatten → Dense(128) → Dropout → Dense(256) → Dropout → Dense(6) → Softmax
+
+## ⚙️ Konfigurasi Training
 - **Loss Function**: Categorical Crossentropy
-- **Optimizer**: Adam(learning_rate=0.001),
+- **Optimizer**: Adam (learning_rate=0.001)
 - **Metrics**: Accuracy
 - **Callbacks**:
-  - EarlyStopping
+  - EarlyStopping (monitor val_loss, patience=5)
   - ReduceLROnPlateau
-  - ModelCheckpoint
-  - StopTrainingAtAccuracy(Callback)
+  - ModelCheckpoint (save best model)
+  - Custom Callback: StopTrainingAtAccuracy (jika diperlukan)
 
-### Hasil Terbaik:
-- ✅ **Training Accuracy**: ~93.2%
-- ✅ **Validation Accuracy**: ~92.0%
-- ✅ **Validation Loss**: ~0.26
+## 📊 Hasil Evaluasi
+| Dataset       | Akurasi     | Loss     |
+|---------------|-------------|----------|
+| Training      | **86.28%**  | -        |
+| Testing       | **85.16%**  | -        |
 
-## 📊 Visualisasi Training
-![Training Plot](training_plot.png)
+Model menunjukkan generalisasi yang cukup baik dengan selisih kecil antara akurasi training dan testing.
 
 ## 🧠 Inference
 Model diekspor dalam 3 format:
 - `SavedModel`
 - `TensorFlow Lite (.tflite)`
 - `TensorFlow.js`
-
-Contoh prediksi:
-```python
-predict_image("/content/drive/MyDrive/dataset_split/test/chicken/4.jpeg")
-# Output: 'chicken' (confidence: 100%)
-![predict](predict.png)
-```
 
 ## 📁 Struktur Folder
 ```
