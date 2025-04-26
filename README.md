@@ -1,6 +1,6 @@
 # 🧠 Intel Image Classification (6 Classes)
 
-Proyek ini merupakan implementasi deep learning untuk klasifikasi gambar ke dalam 6 kelas lingkungan menggunakan **Convolutional Neural Network (CNN)** yang dibangun dari awal tanpa pretrained model.
+Proyek ini merupakan implementasi deep learning untuk klasifikasi gambar ke dalam 6 kelas lingkungan menggunakan **Convolutional Neural Network (CNN)** yang dibantu dengan pretrained model yaitu VGG16.
 
 ## 📁 Dataset
 Dataset yang digunakan adalah [Intel Image Classification](https://www.kaggle.com/datasets/puneet6060/intel-image-classification), yang terdiri dari gambar pemandangan outdoor dengan 6 kelas berbeda:
