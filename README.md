@@ -18,27 +18,26 @@ Dataset yang digunakan adalah [Intel Image Classification](https://www.kaggle.co
 - Dataset dibagi menjadi folder `train`, `test`, dan `val`
 
 📌 **Preprocessing**:
-- Resize gambar ke ukuran tetap (misal: 150x150)
+- Resize gambar ke ukuran tetap (misal: 224x224)
 - Normalisasi pixel (rescaling)
 - Augmentasi data (rotation, flip, zoom, shift, dll)
 
 ## 🛠️ Arsitektur Model
 
 Model CNN dibangun menggunakan Keras Sequential API. Arsitektur terdiri dari:
-
-- 4 blok Conv2D + MaxPooling2D
+- VGG16
+- 2 blok Conv2D + MaxPooling2D
 - Dropout untuk mengurangi overfitting
-- Dense layer berukuran 128 dan 256 neuron
+- Dense layer berukuran 512 neuron
 - Output layer dengan Softmax (6 kelas)
 
 ### Ringkasan Model:
 
-Conv2D → MaxPooling2D → Conv2D → MaxPooling2D → Conv2D → MaxPooling2D → Conv2D → MaxPooling2D
-→ Flatten → Dense(128) → Dropout → Dense(256) → Dropout → Dense(6) → Softmax
+Input → VGG16 → Conv2D → Pooling → BN → Conv2D → Pooling → BN → GAP → Dense → Output
 
 ## ⚙️ Konfigurasi Training
 - **Loss Function**: Categorical Crossentropy
-- **Optimizer**: Adam (learning_rate=0.001)
+- **Optimizer**: Adam (learning_rate=1e-4)
 - **Metrics**: Accuracy
 - **Callbacks**:
   - EarlyStopping (monitor val_loss, patience=5)
@@ -49,15 +48,15 @@ Conv2D → MaxPooling2D → Conv2D → MaxPooling2D → Conv2D → MaxPooling2D 
 ## 📊 Hasil Evaluasi
 | Dataset       | Akurasi     | Loss     |
 |---------------|-------------|----------|
-| Training      | **86.28%**  | -        |
-| Testing       | **85.16%**  | -        |
+| Training      | **89.12%**  | -        |
+| Testing       | **88.85%**  | -        |
 
 Model menunjukkan generalisasi yang cukup baik dengan selisih kecil antara akurasi training dan testing.
 
 ## 🧠 Inference
 Model diekspor dalam 3 format:
 - `SavedModel`
-- `TensorFlow Lite (.tflite)`
+- `TensorFlow Lite (TFLITE)`
 - `TensorFlow.js`
 
 ## 📁 Struktur Folder
